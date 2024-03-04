@@ -6,7 +6,7 @@
 /*   By: hateisse <hateisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 05:28:13 by hateisse          #+#    #+#             */
-/*   Updated: 2024/02/02 12:57:38 by hateisse         ###   ########.fr       */
+/*   Updated: 2024/02/19 18:15:08 by hateisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ char	*ft_dup_next_word(char *str);
 char	*ft_pass_whitespaces(char *str);
 bool	ft_endswith(char *haystack, char *needle);
 char	**ft_strs_expand(char **origin, char *to_add);
-int		ft_str_endswith(char *str, char *needle);
+bool	ft_str_endswith(char *str, char *needle);
+bool	ft_str_startswith(char *str, char *needle);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strsjoin(unsigned int count, ...);
@@ -49,6 +50,7 @@ int		ft_strtoi(const char *nptr, const char **endptr, int base);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 
+void	ft_putchar(char c);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
@@ -81,7 +83,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strcasencmp(const char *s1, const char *s2, size_t n);
 int		ft_strcasecmp(const char *s1, const char *s2);
 
-size_t	ft_strlen(const char *s);
+int		ft_strlen(const char *s);
 int		ft_strslen(char **strs);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strchr_set(const char *s, char *set);

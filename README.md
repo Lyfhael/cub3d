@@ -1,2 +1,1 @@
-# cub3d
-Cub3D project
+# cub3D

@@ -6,15 +6,15 @@
 /*   By: hateisse <hateisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 05:26:59 by hateisse          #+#    #+#             */
-/*   Updated: 2022/10/30 05:27:00 by hateisse         ###   ########.fr       */
+/*   Updated: 2024/02/19 17:40:44 by hateisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (s[i])

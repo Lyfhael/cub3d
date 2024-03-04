@@ -18,12 +18,12 @@ SRCS =	get_next_line/get_next_line.c \
 	ft_memmove.c \
 	ft_memchr.c \
 	ft_memcmp.c \
+	ft_is_whitespace.c \
 	ft_dup_next_word.c \
 	ft_strcmp.c \
 	ft_strncmp.c \
 	ft_strcasencmp.c \
 	ft_pass_whitespaces.c \
-	ft_endswith.c \
 	ft_strcasecmp.c \
 	ft_strsfree.c \
 	ft_strlen.c \
@@ -43,6 +43,7 @@ SRCS =	get_next_line/get_next_line.c \
 	ft_strrchr.c \
 	ft_strstr.c \
 	ft_str_endswith.c \
+	ft_str_startswith.c \
 	ft_strcasestr.c \
 	ft_strnstr.c \
 	ft_intlen.c \
@@ -74,6 +75,7 @@ SRCS =	get_next_line/get_next_line.c \
 	ft_ctos.c \
 	ft_ultobase.c \
 	ft_strmapi.c \
+	ft_putchar.c \
 	ft_putchar_fd.c \
 	ft_putstr_fd.c \
 	ft_print_array_str.c \

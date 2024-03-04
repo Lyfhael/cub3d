@@ -6,7 +6,7 @@
 /*   By: hateisse <hateisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:02:01 by hateisse          #+#    #+#             */
-/*   Updated: 2024/02/01 14:11:33 by hateisse         ###   ########.fr       */
+/*   Updated: 2024/02/08 15:29:42 by hateisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*ft_dup_next_word(char *str)
 	size_t	i;
 	char	*word;
 
+	i = 0;
 	if (!str)
 		return (str);
 	while (!ft_is_whitespace(str[i]) && str[i])
@@ -25,5 +26,5 @@ char	*ft_dup_next_word(char *str)
 	if (!word)
 		return (NULL);
 	ft_strncpy(word, str, i);
-	return (str);
+	return (word);
 }
