@@ -120,7 +120,6 @@ int		cross(t_pm *pm);
 int		esc(int keycode, t_pm *pm);
 void	draw_ground(t_img *img);
 void	draw_point(t_img *img, t_cp pos, int color);
-void	do_drawing(t_pm *pm);
 int		move(int keycode, t_pm *pm);
 void	set_pm(t_pm *pm);
 
