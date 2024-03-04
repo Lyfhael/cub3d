@@ -9,9 +9,9 @@ void	my_mlx_pixel_put(t_img **img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-int	move(int keycode, t_pm *pm) // to add 2D; to stop by walls; 
+int	move_key_pressed(int keycode, t_c3d *c3d)
 {
-	(void)pm;
+	(void)c3d;
 	//printf("key: %d \n",keycode);
 	if (keycode == W)
 	{
@@ -42,22 +42,22 @@ int	move(int keycode, t_pm *pm) // to add 2D; to stop by walls;
 	return (0);
 }
 
-int	esc(int keycode, t_pm *pm)
+int	esc(int keycode, t_c3d *c3d)
 {
-	(void)pm;
+	(void)c3d;
 	(void)keycode;
 	exit(1);
 }
 
-void	ray_casting(t_pm *pm)
+void	ray_casting(t_c3d *c3d)
 {
 	//init window
-	pm->mlx = mlx_init();	
-	pm->win = mlx_new_window(pm->mlx, WINDOW_W, WINDOW_H, "CUB3D");
+	c3d->mlx = mlx_init();	
+	c3d->win = mlx_new_window(c3d->mlx, WINDOW_W, WINDOW_H, "CUB3D");
 
-	//mlx_mouse_hook(pm->win, &mouse_zoom, &pm);
-	mlx_hook(pm->win, 17, 0, &esc, pm);
-	mlx_hook(pm->win, 2, 1L << 0, &esc, pm);
-	mlx_hook(pm->win, 3, 1L << 1, &move, pm);
-	mlx_loop(pm->mlx);
+	//mlx_mouse_hook(c3d->win, &mouse_zoom, &c3d);
+	mlx_hook(c3d->win, 17, 0, &esc, c3d);
+	mlx_hook(c3d->win, 2, 1L << 0, &esc, c3d);
+	mlx_hook(c3d->win, 3, 1L << 1, &move_key_pressed, c3d);
+	mlx_loop(c3d->mlx);
 }

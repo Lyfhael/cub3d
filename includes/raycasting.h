@@ -96,7 +96,7 @@ typedef struct s_map
 	t_textures	textures;
 }				t_map;
 
-typedef struct s_pm
+typedef struct s_c3d
 {
 	void		*mlx;
 	void		*win;
@@ -105,22 +105,22 @@ typedef struct s_pm
 	t_player	player;
 	t_map		map;
 	// env?  H et W du window
-}				t_pm;
+}				t_c3d;
 
 
-float	get_dist(t_pm *pm, int *color, float angle);
+float	get_dist(t_c3d *c3d, int *color, float angle);
 void	draw_line(t_img *img, float	h_line, int w_line, int fov, int color);
 void correct_angle(float *angle);
-void update_line(t_pm *pm, float *h_line, float *start, int *fov, int *color);
+void update_line(t_c3d *c3d, float *h_line, float *start, int *fov, int *color);
 
-void	ray_casting(t_pm *pm);
-void	draw_view(t_pm *pm);
+void	ray_casting(t_c3d *c3d);
+void	draw_view(t_c3d *c3d);
 void	my_mlx_pixel_put(t_img **img, int x, int y, int color);
-int		cross(t_pm *pm);
-int		esc(int keycode, t_pm *pm);
+int		cross(t_c3d *c3d);
+int		esc(int keycode, t_c3d *c3d);
 void	draw_ground(t_img *img);
 void	draw_point(t_img *img, t_cp pos, int color);
-int		move(int keycode, t_pm *pm);
-void	set_pm(t_pm *pm);
+int		move(int keycode, t_c3d *c3d);
+void	set_c3d(t_c3d *c3d);
 
 #endif

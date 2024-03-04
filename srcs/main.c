@@ -3,11 +3,11 @@
 
 int	main(int ac, char **ags)
 {
-	t_pm	pm;
+	t_c3d	c3d;
 
-	if (!parsing(&pm, ac, ags))
+	if (!parsing(&c3d, ac, ags))
 		return (FAILURE);
-	ray_casting(&pm);
-	_c3d_free_t_pm(&pm);
+	ray_casting(&c3d);
+	_c3d_free_t_c3d(&c3d);
 	return (SUCCESS);
 }

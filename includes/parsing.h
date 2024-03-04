@@ -6,7 +6,7 @@
 /*   By: hateisse <hateisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 09:48:09 by hateisse          #+#    #+#             */
-/*   Updated: 2024/02/20 20:26:48 by hateisse         ###   ########.fr       */
+/*   Updated: 2024/03/04 14:08:50 by hateisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,17 +101,17 @@ typedef struct s_map_parsing_info
 }			t_map_pinfo;
 
 // main entry
-bool		parsing(t_pm *pm, int ac, char **ags);
+bool		parsing(t_c3d *c3d, int ac, char **ags);
 
 // parsing
-bool		_c3d_parse_map(t_pm *pm, char **map, t_map *map_info);
+bool		_c3d_parse_map(t_c3d *c3d, char **map, t_map *map_info);
 char		*_c3d_parse_conf_texture(char *line);
 t_rgb		*_c3d_parse_conf_rgb_texture(char *line);
 char		*_c3d_parse_rgb(char *rgb_str, t_rgb *result, char delim);
 bool		_c3d_parse_arguments(int argc, char **argv);
 int			_c3d_expected_conf_arg_type(t_map *map_info);
 bool		_c3d_handle_conf_line(char **line, t_map *map_info);
-bool		_c3d_try_parse_player_spawn(t_pm *pm, char **map, t_map_pinfo *pi);
+bool		_c3d_try_parse_player_spawn(t_c3d *c3d, char **map, t_map_pinfo *pi);
 
 // save in map_info
 bool		_c3d_save_conf_argument(char *line, t_map *map_info);
@@ -132,7 +132,7 @@ bool		_c3d_walkable_tile_is_enclosed(t_map_pinfo *parse_info);
 bool		_c3d_is_obstacle(char tile);
 bool		_c3d_is_valid_tile_identifier(t_map_pinfo *pinfo);
 void		_c3d_init_t_map_pinfo(t_map_pinfo *parse_info, char **map);
-void		_c3d_free_t_pm(t_pm *pm);
+void		_c3d_free_t_c3d(t_c3d *c3d);
 
 // error handling
 void		_c3d_parse_perror(int errno);
@@ -141,6 +141,6 @@ void		_c3d_general_perror(int errno);
 void		_c3d_print_usage(void);
 
 //debugging
-void		_c3d_print_map_info(t_map *map_info, t_pm *pm);
+void		_c3d_print_map_info(t_map *map_info, t_c3d *c3d);
 
 #endif

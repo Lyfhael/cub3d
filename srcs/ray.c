@@ -34,7 +34,7 @@ static bool	is_obstacle(t_cp pos, char **map)
     return (false);
 }
 
-float	get_dist(t_pm *pm, int *color, float angle)
+float	get_dist(t_c3d *c3d, int *color, float angle)
 {
 	t_cp rh; 
 	t_cp rw;
@@ -49,19 +49,19 @@ float	get_dist(t_pm *pm, int *color, float angle)
 
 	dh = 0;
 	dw = 0;
-	iter_h = pm->map.map_size.h;
-	iter_w = pm->map.map_size.w;
+	iter_h = c3d->map.map_size.h;
+	iter_w = c3d->map.map_size.w;
 	printf("check angle : %f\n", angle);
 	if (!angle || angle == PI) //rh useless
 	{
-		rh = pm->player.pos;
+		rh = c3d->player.pos;
 		//printf("PI rh : %f, %f\n", rh.x, rh.y);
-		rw.y = pm->player.pos.y;
+		rw.y = c3d->player.pos.y;
 		
 		if (!angle)
 		{
-			rw.x = ((int)(pm->player.pos.x) >> 6 << 6) + UNIT_W;
-			while (!is_obstacle(rw, pm->map.map) && iter_w > 0)
+			rw.x = ((int)(c3d->player.pos.x) >> 6 << 6) + UNIT_W;
+			while (!is_obstacle(rw, c3d->map.map) && iter_w > 0)
 			{
 				rw.x += UNIT_W;
 				iter_w--;
@@ -69,42 +69,42 @@ float	get_dist(t_pm *pm, int *color, float angle)
 		}
 		else
 		{
-			rw.x = ((int)(pm->player.pos.x) >> 6 << 6) - 0.0001;
-			while (!is_obstacle(rw, pm->map.map) && iter_w > 0)
+			rw.x = ((int)(c3d->player.pos.x) >> 6 << 6) - 0.0001;
+			while (!is_obstacle(rw, c3d->map.map) && iter_w > 0)
 			{
 				rw.x -= UNIT_W;
 				iter_w--;
 			}
 		}
-		dw = fabs(pm->player.pos.x - rw.x);
+		dw = fabs(c3d->player.pos.x - rw.x);
 		*color = W_COLOR;
 		return (dw);
 	}
 	else if (angle == PI90 || angle == PI270)
 	{
-		rw = pm->player.pos;
-		rh.x = pm->player.pos.x;
+		rw = c3d->player.pos;
+		rh.x = c3d->player.pos.x;
 		if (angle == 270)
 		{
-			rh.y = ((int)(pm->player.pos.y) >> 6 << 6) + UNIT_H;
-			while (!is_obstacle(rh, pm->map.map) && iter_h > 0) //&& is_obstacle(rw, pm->map.map) == false
+			rh.y = ((int)(c3d->player.pos.y) >> 6 << 6) + UNIT_H;
+			while (!is_obstacle(rh, c3d->map.map) && iter_h > 0) //&& is_obstacle(rw, c3d->map.map) == false
 			{
 				rh.y += UNIT_H;
 				iter_h--;
 			}
-			//rho.y = rh.y - pm->player.pos.y; //necessary?
+			//rho.y = rh.y - c3d->player.pos.y; //necessary?
 		}
 		else
 		{
-			rh.y = ((int)(pm->player.pos.y) >> 6 << 6) - 0.0001;
-			while (!is_obstacle(rh, pm->map.map)  && iter_h > 0) //&& is_obstacle(rw, pm->map.map) == false
+			rh.y = ((int)(c3d->player.pos.y) >> 6 << 6) - 0.0001;
+			while (!is_obstacle(rh, c3d->map.map)  && iter_h > 0) //&& is_obstacle(rw, c3d->map.map) == false
 			{
 				rh.y -= UNIT_H;
 				iter_h--;
 			}
-			//rho.y = pm->player.pos.y - rh.y; //necessary?
+			//rho.y = c3d->player.pos.y - rh.y; //necessary?
 		}
-		dh = fabs(pm->player.pos.y - rh.y);
+		dh = fabs(c3d->player.pos.y - rh.y);
 		*color = H_COLOR;
 		return (dh);
 	}
@@ -112,24 +112,24 @@ float	get_dist(t_pm *pm, int *color, float angle)
 
 	if (angle < PI)
 	{
-		rh.y = ((int)(pm->player.pos.y) >> 6 << 6) - 0.0001; // necessary?
-		rho.y = rh.y - pm->player.pos.y;
-		rh.x = pm->player.pos.x + (rho.y * atan(angle));
+		rh.y = ((int)(c3d->player.pos.y) >> 6 << 6) - 0.0001; // necessary?
+		rho.y = rh.y - c3d->player.pos.y;
+		rh.x = c3d->player.pos.x + (rho.y * atan(angle));
 
 		if (angle < PI90)
 		{
-			rw.x = ((int)(pm->player.pos.x) >> 6 << 6) + UNIT_W;
-			rwo.x = rw.x - pm->player.pos.x;
-			rw.y = pm->player.pos.y - (rwo.x * tan(angle));
+			rw.x = ((int)(c3d->player.pos.x) >> 6 << 6) + UNIT_W;
+			rwo.x = rw.x - c3d->player.pos.x;
+			rw.y = c3d->player.pos.y - (rwo.x * tan(angle));
 		}
 		else
 		{
-			rw.x = ((int)(pm->player.pos.x) >> 6 << 6) - 0.0001;
-			rwo.x = pm->player.pos.x - rw.x;
-			rw.y = pm->player.pos.y - (rwo.x * tan(angle));
+			rw.x = ((int)(c3d->player.pos.x) >> 6 << 6) - 0.0001;
+			rwo.x = c3d->player.pos.x - rw.x;
+			rw.y = c3d->player.pos.y - (rwo.x * tan(angle));
 		}
 
-		while (!is_obstacle(rh, pm->map.map) && !is_obstacle(rw, pm->map.map) && iter_h > 0 && iter_w > 0) //&& is_obstacle(rw, pm->map.map) == false
+		while (!is_obstacle(rh, c3d->map.map) && !is_obstacle(rw, c3d->map.map) && iter_h > 0 && iter_w > 0) //&& is_obstacle(rw, c3d->map.map) == false
 		{
 			rh.y -= UNIT_H;
 			if (rh.y <= 0)
@@ -137,14 +137,14 @@ float	get_dist(t_pm *pm, int *color, float angle)
 				rh.y = 0;
 				iter_h = 0;
 			}
-			rho.y = rh.y - pm->player.pos.y;
-			rh.x = pm->player.pos.x + (rho.y * atan(angle));
+			rho.y = rh.y - c3d->player.pos.y;
+			rh.x = c3d->player.pos.x + (rho.y * atan(angle));
 			iter_h--;
 			if (angle < PI90)
 			{
 				rw.x += UNIT_W;
-				rwo.x = rw.x - pm->player.pos.x;
-				rw.y = pm->player.pos.y - (rwo.x * tan(angle));
+				rwo.x = rw.x - c3d->player.pos.x;
+				rw.y = c3d->player.pos.y - (rwo.x * tan(angle));
 				
 			}
 			else
@@ -155,69 +155,69 @@ float	get_dist(t_pm *pm, int *color, float angle)
 					rw.x = 0;
 					iter_w = 0;
 				}
-				rwo.x = pm->player.pos.x - rw.x;
-				rw.y = pm->player.pos.y - (rwo.x * tan(angle));
+				rwo.x = c3d->player.pos.x - rw.x;
+				rw.y = c3d->player.pos.y - (rwo.x * tan(angle));
 			}
 			iter_w--;		
 			
 		}
-		rho.x = fabs(pm->player.pos.x - rh.x);
+		rho.x = fabs(c3d->player.pos.x - rh.x);
 		dh = sqrt(rho.x * rho.x + rho.y * rho.y); //av
-		rwo.y = fabs(pm->player.pos.y - rw.y);
+		rwo.y = fabs(c3d->player.pos.y - rw.y);
 		dw = sqrt(rwo.x * rwo.x + rwo.y * rwo.y);
 	}
 	else
 	{
-		rh.y = ((int)(pm->player.pos.y) >> 6 << 6) + UNIT_H;
-		rho.y = rh.y - pm->player.pos.y;
-		rh.x = pm->player.pos.x - (rho.y * atan(angle));
+		rh.y = ((int)(c3d->player.pos.y) >> 6 << 6) + UNIT_H;
+		rho.y = rh.y - c3d->player.pos.y;
+		rh.x = c3d->player.pos.x - (rho.y * atan(angle));
 
 
 		if (angle > PI270)
 		{
-			rw.x = ((int)(pm->player.pos.x) >> 6 << 6) + UNIT_W;
-			rwo.x = rw.x - pm->player.pos.x;
-			rw.y = pm->player.pos.y - (rwo.x * tan(angle));
+			rw.x = ((int)(c3d->player.pos.x) >> 6 << 6) + UNIT_W;
+			rwo.x = rw.x - c3d->player.pos.x;
+			rw.y = c3d->player.pos.y - (rwo.x * tan(angle));
 		}
 		else
 		{
-			rw.x = ((int)(pm->player.pos.x) >> 6 << 6) - 0.0001;
-			rwo.x = pm->player.pos.x - rw.x;
-			rw.y = pm->player.pos.y - (rwo.x * tan(angle));
+			rw.x = ((int)(c3d->player.pos.x) >> 6 << 6) - 0.0001;
+			rwo.x = c3d->player.pos.x - rw.x;
+			rw.y = c3d->player.pos.y - (rwo.x * tan(angle));
 		}
 
-		while (!is_obstacle(rh, pm->map.map) && iter_h > 0) //&& is_obstacle(rw, pm->map.map) == false
+		while (!is_obstacle(rh, c3d->map.map) && iter_h > 0) //&& is_obstacle(rw, c3d->map.map) == false
 		{
 			rh.y += UNIT_H;
-			rho.y = rh.y - pm->player.pos.y;
-			rh.x = pm->player.pos.x - (rho.y * atan(angle));
+			rho.y = rh.y - c3d->player.pos.y;
+			rh.x = c3d->player.pos.x - (rho.y * atan(angle));
 			iter_h--;
 
 			if (angle > PI270)
 			{
 				rw.x += UNIT_W;
-				rwo.x = rw.x - pm->player.pos.x;
-				rw.y = pm->player.pos.y - (rwo.x * tan(angle));
+				rwo.x = rw.x - c3d->player.pos.x;
+				rw.y = c3d->player.pos.y - (rwo.x * tan(angle));
 				
 			}
 			else
 			{
 				rw.x -= UNIT_W;
-				rwo.x = pm->player.pos.x - rw.x;
-				rw.y = pm->player.pos.y - (rwo.x * tan(angle));
+				rwo.x = c3d->player.pos.x - rw.x;
+				rw.y = c3d->player.pos.y - (rwo.x * tan(angle));
 			}
 			iter_w--;	
 		}
-		rho.x = fabs(pm->player.pos.x - rh.x);
+		rho.x = fabs(c3d->player.pos.x - rh.x);
 		dh = sqrt(rho.x * rho.x + rho.y * rho.y);
-		rwo.y = fabs(pm->player.pos.y - rw.y);
+		rwo.y = fabs(c3d->player.pos.y - rw.y);
 		dw = sqrt(rwo.x * rwo.x + rwo.y * rwo.y);
 	}
 
 	*color = W_COLOR;
 	if (dh < dw)
 	{	
-		if (is_obstacle(rh, pm->map.map))
+		if (is_obstacle(rh, c3d->map.map))
 		{
 			dist = dh;
 			*color = H_COLOR;
@@ -236,7 +236,7 @@ float	get_dist(t_pm *pm, int *color, float angle)
 	//for test		
 	//draw_point(img, rh); 
 	//
-	printf("angle: %f pos: %f, %f rh : %f, %f rw: %f, %f Dist %f \n", angle / DEGREE, pm->player.pos.x, pm->player.pos.y, rh.x, rh.y, rw.x, rw.y, dist);
+	printf("angle: %f pos: %f, %f rh : %f, %f rw: %f, %f Dist %f \n", angle / DEGREE, c3d->player.pos.x, c3d->player.pos.y, rh.x, rh.y, rw.x, rw.y, dist);
 	return (dist);
 }
 
@@ -291,17 +291,17 @@ void correct_angle(float *angle)
 		*angle -= PI360;
 }
 
-void update_line(t_pm *pm, float *h_line, float *start, int *fov, int *color)
+void update_line(t_c3d *c3d, float *h_line, float *start, int *fov, int *color)
 {
-	//*h_line = get_dist(pm, color, *start) * cos(fabs(*start - pm->player.angle)) * WINDOW_H / (WINDOW_W / 4);
-	*h_line = 1.5 * WINDOW_H * CDIST / (get_dist(pm, color, *start) * cos(fabs(*start - pm->player.angle)));
+	//*h_line = get_dist(c3d, color, *start) * cos(fabs(*start - c3d->player.angle)) * WINDOW_H / (WINDOW_W / 4);
+	*h_line = 1.5 * WINDOW_H * CDIST / (get_dist(c3d, color, *start) * cos(fabs(*start - c3d->player.angle)));
 	*start -= DEGREE;
 	(*fov)++;
 	correct_angle(start);
 }
 
 
-void	draw_view(t_pm *pm)
+void	draw_view(t_c3d *c3d)
 {
 	float	start;
 	int	fov;
@@ -317,22 +317,22 @@ void	draw_view(t_pm *pm)
 	pre_color = 0;
 	color = 1;
 	count = 1;
-	start = FOV / 2 * DEGREE + pm->player.angle;
+	start = FOV / 2 * DEGREE + c3d->player.angle;
 	fov = 0;
 	w_line = WINDOW_W / FOV;
 	correct_angle(&start);
 
 	while (fov < FOV)
 	{
-		update_line(pm, &pre_h_line, &start, &fov, &pre_color);
-		update_line(pm, &h_line, &start, &fov, &color);
+		update_line(c3d, &pre_h_line, &start, &fov, &pre_color);
+		update_line(c3d, &h_line, &start, &fov, &color);
 		// count = 1;
 		// while (fov && pre_h_line == h_line && color == pre_color)
 		// {
 		// 	count++;
-		// 	update_line(pm, &h_line, &start, &fov, &color);
+		// 	update_line(c3d, &h_line, &start, &fov, &color);
 		// }
-		draw_line(&(pm->img_scene), pre_h_line, count * w_line, fov, color);
-		draw_line(&(pm->img_scene), h_line, w_line, fov, color);
+		draw_line(&(c3d->img_scene), pre_h_line, count * w_line, fov, color);
+		draw_line(&(c3d->img_scene), h_line, w_line, fov, color);
 	}
 }

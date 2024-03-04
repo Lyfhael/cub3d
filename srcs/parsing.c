@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzhuang <yzhuang@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hateisse <hateisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 08:06:11 by hateisse          #+#    #+#             */
-/*   Updated: 2024/02/20 20:47:24 by yzhuang          ###   ########.fr       */
+/*   Updated: 2024/03/04 14:05:25 by hateisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,7 +350,7 @@ void	_c3d_print_map_with_indicator(char **map, int yo, int xo)
 	}
 }
 
-void	_c3d_print_map_info(t_map *map_info, t_pm *pm)
+void	_c3d_print_map_info(t_map *map_info, t_c3d *c3d)
 {
 	printf("North texture: %s\n", map_info->textures.no_wall);
 	printf("South texture: %s\n", map_info->textures.so_wall);
@@ -367,9 +367,9 @@ void	_c3d_print_map_info(t_map *map_info, t_pm *pm)
 	printf("\n");
 	ft_print_array_str(map_info->map);
 	printf("\n");
-	printf("player position x:%f y:%f\n", pm->player.pos_map.x, pm->player.pos_map.y);
-	printf("player angle:%f\n", pm->player.angle);
-	printf("map height:%d\n", pm->map.map_size.h);
+	printf("player position x:%f y:%f\n", c3d->player.pos_map.x, c3d->player.pos_map.y);
+	printf("player angle:%f\n", c3d->player.angle);
+	printf("map height:%d\n", c3d->map.map_size.h);
 }
 
 void	_c3d_free_map_info(t_map *map_info)
@@ -457,7 +457,7 @@ bool	_c3d_is_valid_tile_identifier(t_map_pinfo *pinfo)
 	return (_c3d_print_map_with_indicator(pinfo->map, y, x), false);
 }
 
-bool	_c3d_try_parse_player_spawn(t_pm *pm, char **map, t_map_pinfo *pi)
+bool	_c3d_try_parse_player_spawn(t_c3d *c3d, char **map, t_map_pinfo *pi)
 {
 	char	tile;
 
@@ -467,22 +467,22 @@ bool	_c3d_try_parse_player_spawn(t_pm *pm, char **map, t_map_pinfo *pi)
 		if (pi->spawn_found)
 			return (_c3d_map_format_perror(MULTIPLE_SPAWNS), FAILURE);
 		pi->spawn_found = true;
-		pm->player.pos_map.x = pi->x;
-		pm->player.pos_map.y = pi->y;
+		c3d->player.pos_map.x = pi->x;
+		c3d->player.pos_map.y = pi->y;
 		if (tile == 'N')
-			pm->player.angle = PI / 2;
+			c3d->player.angle = PI / 2;
 		else if (tile == 'S')
-			pm->player.angle = 3 * PI / 2;
+			c3d->player.angle = 3 * PI / 2;
 		else if (tile == 'E')
-			pm->player.angle = 0;
+			c3d->player.angle = 0;
 		else if (tile == 'W')
-			pm->player.angle = PI;
+			c3d->player.angle = PI;
 	}
 	return (SUCCESS);
 }
 
 
-bool	_c3d_parse_map(t_pm *pm, char **map, t_map *map_info)
+bool	_c3d_parse_map(t_c3d *c3d, char **map, t_map *map_info)
 {
 	t_map_pinfo	parse_info;
 
@@ -496,7 +496,7 @@ bool	_c3d_parse_map(t_pm *pm, char **map, t_map *map_info)
 		{
 			if (!_c3d_is_valid_tile_identifier(&parse_info))
 				return (_c3d_map_format_perror(MAP_TILE_BAD_ID), FAILURE);
-			if (!_c3d_try_parse_player_spawn(pm, map, &parse_info))
+			if (!_c3d_try_parse_player_spawn(c3d, map, &parse_info))
 				return (FAILURE);
 			if (_c3d_is_walkable_tile(map[parse_info.y][parse_info.x])
 				&& !_c3d_walkable_tile_is_enclosed(&parse_info))
@@ -510,23 +510,23 @@ bool	_c3d_parse_map(t_pm *pm, char **map, t_map *map_info)
 	return (SUCCESS);
 }
 
-void	_c3d_free_t_pm(t_pm *pm)
+void	_c3d_free_t_c3d(t_c3d *c3d)
 {
-	if (!pm)
+	if (!c3d)
 		return ;
-	_c3d_free_map_info(&pm->map);
+	_c3d_free_map_info(&c3d->map);
 }
 
-bool	parsing(t_pm *pm, int ac, char **ags)
+bool	parsing(t_c3d *c3d, int ac, char **ags)
 {
 	t_map	map_info;
 
 	ft_bzero(&map_info, sizeof(map_info));
 	if (_c3d_parse_arguments(ac, ags) == FAILURE
 		|| _c3d_load_conf_file(ags[1], &map_info) == FAILURE
-		|| _c3d_parse_map(pm, map_info.map, &map_info) == FAILURE)
+		|| _c3d_parse_map(c3d, map_info.map, &map_info) == FAILURE)
 		return (_c3d_free_map_info(&map_info), FAILURE);
-	pm->map = map_info;
-	_c3d_print_map_info(&map_info, pm);
+	c3d->map = map_info;
+	_c3d_print_map_info(&map_info, c3d);
 	return (SUCCESS);
 }
